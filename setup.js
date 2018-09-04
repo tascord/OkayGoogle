@@ -5,8 +5,8 @@ const fs = require('fs');
 
 //Start
 enquirer.question('owner', 'OwnerID: ');
-enquirer.question('prefix', 'Bot Prefix: ');
-enquirer.question('token', 'Bot Token (No Spaces): ');
+enquirer.question('prefix', 'Bot Prefix (No Spaces): ');
+enquirer.question('token', 'Bot Token: ): ');
 enquirer.question('secret', 'Bot Secret: ');
 enquirer.question('ytapi', 'YouTube Api Key: ');
 enquirer.question('filedel', 'A config file already exists. Delete it? (Y/N)');

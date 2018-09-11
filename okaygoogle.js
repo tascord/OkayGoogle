@@ -80,7 +80,7 @@ const ServerData = sequelize.define('tags', {
 
 //Musicbot
 Music.start(client, {
-    prefix: config.prefix + ' ',
+    prefix: config.prefix,
     maxQueueSize: "100",
     disableLoop: false,
     enableQueueStat: true,
@@ -192,7 +192,7 @@ if(!member)
 if(!member.bannable)
  return message.reply(`Can't Kick User. They may have higher perms than me, or I might not have permission to kick.`);
  let reason = args.slice(1).join(' ');
-if(!reason) reason = "The Ban Hammer Has Spoken!";
+if(!reason) reason = "The Kicking Boot Has Speeked!";
  await member.kick(reason)
  .catch(error => message.reply(`${error}`));
  try {
@@ -252,17 +252,17 @@ if (command === "coin") {
 //Setup Command
 if (command === "setup") {
     try {
-        const tag = await Tags.create({
+        const ServerDatab = await ServerData.create({
             serverid: message.member.guild.id,
             ownerid: message.member.guild.ownerID,
-            modlog: `None Set. Go to the modlog channel and type ${prefix}modlog`,
+            modlog: `None Set. Go to the modlog channel and type ${config.prefix}modlog`,
             servername: message.member.guild.name,
             swearfilter: "true",
         });
         return message.reply(`Server ${tag.servername} added.`);
     }
     catch (e) {
-      cError(`Error saving data to database, possible data corruption! Error name: ${e.name}`);
+      cError(`Error saving data to database, possible data corruption! Error Name: ${e.name}`);
       message.reply('Error saving data.');
     }
 }

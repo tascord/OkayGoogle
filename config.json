@@ -1,7 +1,0 @@
-{
-"ownerid": "205811939861856257",
-"prefix": "g",
-"token": process.env.TOKEN,
-"secret": process.env.SECRET,
-"ytapi": process.env.YTAPI
-}

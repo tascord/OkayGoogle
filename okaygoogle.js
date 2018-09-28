@@ -90,15 +90,12 @@ client.on('message', async message => {
 
 if(!message.member.hasPermission("EMBED_LINKS") || !message.member.hasPermission("MANAGE_MESSAGES")) {
 if(message.content.toLowerCase().includes('www.') || message.content.toLowerCase().includes('http')) {
-  message.delete();
-  message.reply("Please no URLS in chat");
+message.delete();
+message.reply("Please no URLS in chat");
 }
 }
 
-//Get Database Info
-try {
-const serverDataMessage = await serverData.findOne({ where: { serverid: message.member.guild.id } });
-} catch (e) { }
+
 
 //Variables & Constants
 var now = moment();
@@ -179,14 +176,14 @@ if(!reason) reason = "The Kicking Boot Has Speeked!";
  await member.kick(reason)
  .catch(error => message.reply(`${error}`));
  try {
-  if (serverDataMessage) {
+  if (serverDataTMP) {
    const embed = new Discord.RichEmbed()
      .setTitle("Kick Log")
      .setColor(0xdf2f35)
      .addField("Member Kicked", `${member.user.tag}`, true)
      .addField("Kicked By", `${message.author.tag}`, true)
      .addField("Reason", `${reason}`, true);
-     return message.guild.channels.find("name", serverDataMessage.get('modlog')).send({ embed });
+     return message.guild.channels.find("name", serverDataTMP.get('modlog')).send({ embed });
    }
  } catch (e) { return message.reply(`Member Kicked. Set up the server to have a kick message shown! ${config.prefix}setup`); }
 
@@ -207,14 +204,14 @@ if(!reason) reason = "The Ban Hammer Has Spoken!";
  await member.ban(reason)
  .catch(error => message.reply(`${error}`));
  try {
-  if (serverDataMessage) {
+  if (serverDataTMP) {
    const embed = new Discord.RichEmbed()
      .setTitle("Ban Log")
      .setColor(0xdf2f35)
      .addField("Member Kicked", `${member.user.tag}`, true)
      .addField("Kicked By", `${message.author.tag}`, true)
      .addField("Reason", `${reason}`, true);
-     return message.guild.channels.find("name", serverDataMessage.get('modlog')).send({ embed });
+     return message.guild.channels.find("name", serverDataTMP.get('modlog')).send({ embed });
    }
  } catch (e) { return message.reply(`Member Banned. Set up the server to have a ban message shown! ${config.prefix}setup`); }
 
@@ -238,9 +235,9 @@ if (command === "setup") {
         const serverDataSetup = await serverData.create({
             serverid: message.member.guild.id,
             ownerid: message.member.guild.ownerID,
-            modlog: `None Set. Go to the modlog channel and type ${config.prefix}modlog`,
+            modlog: `None Set. Go to the modlog channel and type ${config.prefix}settings set modlog`,
             servername: message.member.guild.name,
-            welcomemessage: `Hello! Welcome to [guildname]`,
+            welcomemessage: `Hello, Welcome to ${message.member.guild.name}!`,
         });
         return message.reply(`Server ${serverDataSetup.servername} added.`);
         cInfo(`New Server Added To Database: ${serverDataSetup.servername}`);
@@ -250,27 +247,34 @@ if (command === "setup") {
             return message.reply(`This server already has data. Run ${config.prefix}data to see it.`);
         }
         message.reply('Something went wrong with adding the server data.');
-        return cError(`Error saving data! Error: ${e}`);
     }
-}3
+}
 
-//Server data recalling command
-if (command === "data") {
+//Server data recalling and re-setting command command
+if (command === "settings") {
+if (!args[0]) {
   try {
-    if (serverDataMessage) {
-      const embed = new Discord.RichEmbed()
-      .setTitle(`${serverDataMessage.get('servername')} Stored Data`)
-      .setColor(0xff6600)
-      .addField(`Server Name:`, `${serverDataMessage.get('servername')} `)
-      .addField(`Server ID:`, `${serverDataMessage.get('serverid')} `)
-      .addField(`ModLog Channel:`, `#${serverDataMessage.get('modlog')} `)
-      .addField(`Swear Filter Enabled:`, `${serverDataMessage.get('swearfilter')} `)
-      .addField(`Owner ID:`, `${serverDataMessage.get('ownerid')} `);
-      return message.channel.send({embed});
+    serverDataTMP = await serverData.findOne({ where: { serverid: message.member.guild.id } });
+    if (serverDataTMP) {
+        const embed = new Discord.RichEmbed()
+        .setTitle(`${serverDataTMP.get('servername')} Stored Data`)
+        .setColor(currentColour)
+        .addField(`Server Name:`, `${serverDataTMP.get('servername')} `)
+        .addField(`Server ID:`, `${serverDataTMP.get('serverid')} `)
+        .addField(`ModLog Channel:`, `#${serverDataTMP.get('modlog')} `)
+        .addField(`Welcome Message:`, `${serverDataTMP.get('welcomemessage')} `)
+        .addField(`Owner ID:`, `${serverDataTMP.get('ownerid')} `);
+        return message.channel.send({embed});
+      }
+    } catch (e) {
+      message.reply(`Could not find any server info!`);
     }
-  } catch (e) {
-    return message.reply(`Could not find any server info!`);
-  }
+} else if (args[0] === "set") {
+
+} else {
+  message.reply(`Invalid Command Arguments. E.g \`${config.prefix}settings set modlog\``);
+}
+
 }
 
 //Echo command

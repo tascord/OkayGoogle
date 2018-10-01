@@ -17,7 +17,8 @@ moment().tz("Australia/Melbourne").format();
 var googleColours = ['0x4681f3', '0xdf2f35', '0xf6c400', '0x477ff5', '0x36bc50', '0xdf2f35'];
 var chatCommands = ['**Coin**\n Flip A Coin!', '**Echo**\n Copy Whatever You Say!'];
 var musicCommands = ["**Play** `[Url / Term]`\n Adds The URL / Search Term To The Queue", "**Skip** `[Number]`\n Skips One Song (or the specified ammount to skip)", "**Queue**\n Shows The Queue", "**Pause / Resume**\n Pauses Or Resumes Music Playback", "**Volume** `[Level]`\n Sets Playback Volume (0 - 200)", "**Leave**\n Removes The Bot From The Voice Channel", "**Clearqueue**\n Clears The Queue"];
-var adminCommands = ['**Setup**\n Setup the servers settings. These can be modified after setup', '**Settings** `[Set / Delete / No Arguement]`\n Set, Delete or Show The Server Settings','**Ban / Kick** `[User] [Reason]`\n Punishes the given user for the given reason', '**Ci** `[Value]`\n Clears the amount of messages you specify', "**Invite**\n Chuck a bot invite in chat"];
+var adminCommands = ['**Setup**\n Setup the servers settings. These can be modified after setup', '**Settings** `[Set / Delete / No Arguement]`\n Set, Delete or Show The Server Settings','**Ban / Kick** `[User] [Reason]`\n Punishes the given user for the given reason', '**Ci** `[Value]`\n Clears the amount of messages you specify'];
+var botInfo = ["**Invite**\n Chucks a bot invite in chat", "**GitHub**\n Links to the bots GitHub page"];
 
 //Login the bot
 client.login(config.token);
@@ -141,6 +142,10 @@ if (command === "help") {
                {
                    name: "Admin Commands",
                    value: adminCommands.join('\n')
+               },
+               {
+                   name: "Bot Commands",
+                   value: botInfo.join('\n')
                },
                {
                    name: "Bug Reporting",
@@ -322,6 +327,8 @@ if (command === "ci") {
   message.reply(`:recycle: Cleared ${args[0]} messages.`);
 }
 
-if (command === "invite") message.channel.send(`**Invite The Bot Here**\nhttp://bit.ly/OkayGoogleBot`);
+//One Liners
+if (command === "invite") message.channel.send(`**Invite The Bot Here:**\nhttp://bit.ly/OkayGoogleBot`);
+if (command === "github") message.channel.send(`**The Bots GitHub Page Is Here:**\nhttps://github.com/tascord/OkayGoogle`);
 
 });

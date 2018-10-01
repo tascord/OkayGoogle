@@ -40,6 +40,14 @@ function uError (uParseError) {
   console.log(chalk.bgMagenta.bold('User Error') + ' ' + uParseError);
 }
 
+//Text cleaning
+function clean(text) {
+  if (typeof(text) === "string")
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+  else
+      return text;
+}
+
 //Startup Database
 const sequelize = new Sequelize('serverDatabase', 'Username', 'Password', {
     host: 'localhost',
@@ -132,6 +140,10 @@ if (command === "help") {
                },
                description: `**Help For ${client.user.tag}**`,
                fields: [{
+                   name: "Help?!",
+                   value: 'If your stuck, check out the [Wiki](https://github.com/tascord/OkayGoogle/wiki)'
+               },
+               {
                    name: "Chat Commands",
                    value: chatCommands.join('\n')
                },
@@ -325,6 +337,22 @@ if (command === "ci") {
   let messagecount = parseInt(args[0]);
   message.channel.fetchMessages({limit: messagecount}).then(messages => message.channel.bulkDelete(messages));
   message.reply(`:recycle: Cleared ${args[0]} messages.`);
+}
+
+//EVAL (BE VERY CAREFUL MODIFYING THIS)
+if(command === "eval") {
+if(message.author.id !== config.ownerid) return;
+    try {
+      const code = args.join(" ");
+      let evaled = eval(code);
+
+      if (typeof evaled !== "string")
+        evaled = require("util").inspect(evaled);
+
+      message.channel.send(clean(evaled), {code:"xl"});
+    } catch (err) {
+      message.channel.send(`**Error Running Command:**\n${clean(err)}`);
+    }
 }
 
 //One Liners

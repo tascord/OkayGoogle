@@ -15,10 +15,10 @@ moment().tz("Australia/Melbourne").format();
 
 //Variables
 var googleColours = ['0x4681f3', '0xdf2f35', '0xf6c400', '0x477ff5', '0x36bc50', '0xdf2f35'];
-var chatCommands = ['**Coin**\n Flip A Coin!', '**Echo**\n Copy Whatever You Say!'];
-var musicCommands = ["**Play** `[Url / Term]`\n Adds The URL / Search Term To The Queue", "**Skip** `[Number]`\n Skips One Song (or the specified ammount to skip)", "**Queue**\n Shows The Queue", "**Pause / Resume**\n Pauses Or Resumes Music Playback", "**Volume** `[Level]`\n Sets Playback Volume (0 - 200)", "**Leave**\n Removes The Bot From The Voice Channel", "**Clearqueue**\n Clears The Queue"];
-var adminCommands = ['**Setup**\n Setup the servers settings. These can be modified after setup', '**Settings** `[Set / Delete / No Arguement]`\n Set, Delete or Show The Server Settings','**Ban / Kick** `[User] [Reason]`\n Punishes the given user for the given reason', '**Ci** `[Value]`\n Clears the amount of messages you specify'];
-var botInfo = ["**Invite**\n Chucks a bot invite in chat", "**GitHub**\n Links to the bots GitHub page"];
+var chatCommands = ['**Coin:** Flip A Coin!', '**Echo:** Copy Whatever You Say!'];
+var musicCommands = ["**Play** `[Url / Term]`\n Adds The URL / Search Term To The Queue", "**Skip** `[Number]`\n Skips One Song (or the specified ammount to skip)", "**Queue:** Shows The Queue", "**Pause / Resume:** Pauses Or Resumes Music Playback", "**Volume** `[Level]`\n Sets Playback Volume (0 - 200)", "**Leave:** Removes The Bot From The Voice Channel", "**Clearqueue:** Clears The Queue"];
+var adminCommands = ['**Setup:** Setup the servers settings. These can be modified after setup', '**Settings** `[Set / Delete / No Arguement]`\n Set, Delete or Show The Server Settings','**Ban / Kick** `[User] [Reason]`\n Punishes the given user for the given reason', '**Ci** `[Value]`\n Clears the amount of messages you specify'];
+var botInfo = ["**Invite:** Chucks a bot invite in chat", "**GitHub:** Links to the bots GitHub page"];
 
 //Login the bot
 client.login(config.token);
@@ -81,13 +81,13 @@ Music.start(client, {
 
 //On Bot Startup
 client.once('ready', () => {
+    client.user.setActivity(`${config.prefix} help for help!`, { type: 'WATCHING' });
     console.log(`${chalk.cyan(`\nOkay, `)}${chalk.cyan.bold(`${client.user.tag}!\n`)}`);
     serverData.sync();
 });
 
 //When user joins guild send them welcome message if avaliable
 client.on("guildMemberAdd", async member => {
-
   try {
     const guildWelcome = await serverData.findOne({ where: { serverid: member.guild.id } });
     if (guildWelcome.get('welcomemessage').toLowerCase() === 'off') return;
@@ -98,7 +98,6 @@ client.on("guildMemberAdd", async member => {
 
 //Commands
 client.on('message', async message => {
-
 try{
   if(!message.member.hasPermission("EMBED_LINKS") || !message.member.hasPermission("MANAGE_MESSAGES")) {
     if(message.content.toLowerCase().includes('www.') || message.content.toLowerCase().includes('http')) {

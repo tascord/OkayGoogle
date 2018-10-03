@@ -138,7 +138,7 @@ if (command === "help") {
                    name: client.user.username,
                    icon_url: client.user.avatarURL
                },
-               description: `**Help For ${client.user.tag}**`,
+               description: `**How Can I Help?**`,
                fields: [{
                    name: "Help?!",
                    value: 'If your stuck, check out the [Wiki](https://github.com/tascord/OkayGoogle/wiki)'
@@ -167,7 +167,6 @@ if (command === "help") {
            }
        });
    }
-
 
 //Report Command
 if (command === "report"){

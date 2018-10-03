@@ -198,8 +198,8 @@ if(!reason) reason = "The Kicking Boot Has Speeked!";
    const embed = new Discord.RichEmbed()
      .setTitle("Kick Log")
      .setColor(0xdf2f35)
-     .addField("Member Kicked", `${member.user.username}`, true)
-     .addField("Kicked By", `${message.author.username}`, true)
+     .addField("Member Kicked", `${member.user.tag}`, true)
+     .addField("Kicked By", `${message.author.tag}`, true)
      .addField("Reason", `${reason}`);
      return message.guild.channels.find("name", serverDataTMP.get('modlog')).send({ embed });
    }
@@ -226,8 +226,8 @@ if(!reason) reason = "The Ban Hammer Has Spoken!";
    const embed = new Discord.RichEmbed()
      .setTitle("Ban Log")
      .setColor(0xdf2f35)
-     .addField("Member Kicked", `${member.user.username}`, true)
-     .addField("Kicked By", `${message.author.username}`, true)
+     .addField("Member Kicked", `${member.user.tag}`, true)
+     .addField("Kicked By", `${message.author.tag}`, true)
      .addField("Reason", `${reason}`);
      return message.guild.channels.find("name", serverDataTMP.get('modlog')).send({ embed });
    }

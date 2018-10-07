@@ -203,7 +203,7 @@ if(!reason) reason = "The Kicking Boot Has Speeked!";
      .addField("Reason", `${reason}`);
      return message.guild.channels.find("name", serverDataTMP.get('modlog')).send({ embed });
    }
- } catch (e) { return message.reply(`Member Kicked. Set up the server to have a kick message shown! ${config.prefix}setup`); }
+ } catch (e) { return message.reply(`Member Banned. Run \`${config.prefix}settings set modlod\` in the servers ModLog channel to have a punishment message be shown`); }
 
 }
 
@@ -231,7 +231,7 @@ if(!reason) reason = "The Ban Hammer Has Spoken!";
      .addField("Reason", `${reason}`);
      return message.guild.channels.find("name", serverDataTMP.get('modlog')).send({ embed });
    }
- } catch (e) { return message.reply(`Member Banned. Set up the server to have a ban message shown! ${config.prefix}setup`); }
+ } catch (e) { return message.reply(`Member Banned. Run \`${config.prefix}settings set modlod\` in the servers ModLog channel to have a punishment message be shown`); }
 
 }
 

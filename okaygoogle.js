@@ -16,8 +16,8 @@ moment().tz("Australia/Melbourne").format();
 //Variables
 var googleColours = ['0x4681f3', '0xdf2f35', '0xf6c400', '0x477ff5', '0x36bc50', '0xdf2f35'];
 var chatCommands = ['**Coin:** Flip A Coin!', '**Echo:** Copy Whatever You Say!'];
-var musicCommands = ["**Play** `[Url / Term]`\n Adds The URL / Search Term To The Queue", "**Skip** `[Number]`\n Skips One Song (or the specified ammount to skip)", "**Queue:** Shows The Queue", "**Pause / Resume:** Pauses Or Resumes Music Playback", "**Volume** `[Level]`\n Sets Playback Volume (0 - 200)", "**Leave:** Removes The Bot From The Voice Channel", "**Clearqueue:** Clears The Queue"];
-var adminCommands = ['**Setup:** Setup the servers settings. These can be modified after setup', '**Settings** `[Set / Delete / No Arguement]`\n Set, Delete or Show The Server Settings','**Ban / Kick** `[User] [Reason]`\n Punishes the given user for the given reason', '**Ci** `[Value]`\n Clears the amount of messages you specify'];
+var musicCommands = ["**Play** `[Url / Term]`: Adds The URL / Search Term To The Queue", "**Skip** `[Number]`: Skips One Song (or the specified ammount to skip)", "**Queue:** Shows The Queue", "**Pause / Resume:** Pauses Or Resumes Music Playback", "**Volume** `[Level]`: Sets Playback Volume (0 - 200)", "**Leave:** Removes The Bot From The Voice Channel", "**Clearqueue:** Clears The Queue"];
+var adminCommands = ['**Setup:** Setup the servers settings. These can be modified after setup', '**Settings** `[Set / Delete / No Arguement]`: Set, Delete or Show The Server Settings','**Ban / Kick** `[User] [Reason]`: Punishes the given user for the given reason', '**Ci** `[Value]`: Clears the amount of messages you specify'];
 var botInfo = ["**Invite:** Chucks a bot invite in chat", "**GitHub:** Links to the bots GitHub page"];
 
 //Login the bot
@@ -249,7 +249,7 @@ if (command === "coin") {
 
 //Server data setup Command
 if (command === "setup") {
-  if (args[0] && message.author.id != message.member.guild.ownerID) return message.reply("Only the server owner can create or modify Server Data");
+  if (message.author.id != message.member.guild.ownerID) return message.reply("Only the server owner can create or modify Server Data");
     try {
         const serverDataSetup = await serverData.create({
             serverid: message.member.guild.id,
@@ -337,9 +337,22 @@ if (command === "ci") {
   message.reply(`:recycle: Cleared ${args[0]} messages.`);
 }
 
+//Bot owner commands
+if(message.author.id !== config.ownerid) return;
+
+//Pm user by id
+if (command === "message") {
+  if (!args) message.reply('Please specify a user and a message');
+  try {
+    let member = message.mentions.members.first();
+    client.users.get(member.id).send(args.splice(1).join(' '));
+  } catch (e) {
+    message.reply('Either thats an invalid user or an issue occured sending that message');
+  }
+}
+
 //EVAL (BE VERY CAREFUL MODIFYING THIS)
 if(command === "eval") {
-if(message.author.id !== config.ownerid) return;
     try {
       const code = args.join(" ");
       let evaled = eval(code);

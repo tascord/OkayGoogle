@@ -4,6 +4,7 @@ var enquirer = new Enquirer();
 const fs = require('fs');
 
 //Start
+enquirer.question('botname', 'Bot Name (only modifys name shown on website): ');
 enquirer.question('owner', 'OwnerID: ');
 enquirer.question('prefix', 'Bot Prefix (No Spaces): ');
 enquirer.question('token', 'Bot Token: ');
@@ -15,7 +16,9 @@ enquirer.question('filedel', 'A config file already exists. Delete it? (Y/N)');
 
 function runQuestions () {
 
-  enquirer.ask('owner')
+  enquirer.ask('botname')
+    .then(function(ouput) {
+  enquirer.asl('owner')
     .then(function(ouput) {
   enquirer.ask('prefix')
     .then(function(output) {

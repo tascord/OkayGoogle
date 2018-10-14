@@ -1,13 +1,67 @@
 <!DOCTYPE html>
 <html>
+<style>
+body {
+  background-color: #282b30;
+  font-family: 'Muli', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  padding-top: 54px;
+  color: #868e96;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Saira Extra Condensed', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #99AAB5;
+}
+
+h1 {
+  font-size: 6rem;
+  line-height: 5.5rem;
+}
+
+h2 {
+  font-size: 3.5rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+p.lead {
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.subheading {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: 'Saira Extra Condensed', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-size: 1.5rem;
+}
+
+a {
+  color: #7289DA;
+  text-decoration: none;
+}
+
+</style>
+<script>
+var config = require('../config.json');
+</script>
 <head>
-	<title>My First OAuth2 App</title>
+	<link rel="stylesheet" href="styles.css">
+	<title>Google Discord Dashboard</title>
 </head>
 <body>
-	<div id="info">
-		Hoi!
-	</div>
-	<a id="login" style="display: none;" href="your oauth2 url here">Identify Yourself</a>
+	<div id="title" align="center"> <h2> Okay Google!	</h1>	</div>
+	<div id="userinfo" align="right"> Logged Out </div> <a id="login" href="-=-=-=-=-=-=- I need a thing here owo -=-=-=-=-=-=-"> <div id="logintext" align="right"> Login? </div> </a>
+	<h1> <div id="bigname" align="center"> Why hello there </div> </h1>
 	<script>
 		function generateRandomString() {
 			const rand = Math.floor(Math.random() * 10);
@@ -41,7 +95,10 @@
 					.then(response => {
 						console.log(response);
 						const { username, discriminator } = response;
-						document.getElementById('info').innerText += ` ${username}#${discriminator}`;
+						document.getElementById('userinfo').innerText = ` \nLogged in as: ${username}#${discriminator}`;
+						document.getElementById('login').href = "http://localhost:8000";
+						document.getElementById('logintext').innerText = "Logout?";
+						document.getElementById('bigname').innerText += `\n${username}`;
 					})
 					.catch(console.error);
 			}

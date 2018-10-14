@@ -369,5 +369,4 @@ if(command === "eval") {
 //One Liners
 if (command === "invite") message.channel.send(`**Invite The Bot Here:**\nhttp://bit.ly/OkayGoogleBot`);
 if (command === "github") message.channel.send(`**The Bots GitHub Page Is Here:**\nhttps://github.com/tascord/OkayGoogle`);
-
 });

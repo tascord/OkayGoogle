@@ -8,8 +8,6 @@ const port = 8000;
 
 http.createServer((req, res) => {
 
-  console.log(`Web Server Online!`);
-
 	let responseCode = 404;
 	let content = '404 Error';
 
@@ -19,24 +17,23 @@ http.createServer((req, res) => {
 		const accessCode = urlObj.query.code;
 		const data = new FormData();
 
-		data.append('client_id', 'your client id');
-		data.append('client_secret', 'your client secret');
+		data.append('client_id', config.clientid);
+		data.append('client_secret', config.secret);
 		data.append('grant_type', 'authorization_code');
-		data.append('redirect_uri', 'your redirect url');
-		data.append('scope', 'the scopes');
+		data.append('redirect_uri', config.redirecturi);
+		data.append('scope', 'identify');
 		data.append('code', accessCode);
 
 		fetch('https://discordapp.com/api/oauth2/token', {
 			method: 'POST',
 			body: data,
 		})
-			.then(discordRes => discordRes.json())
-			.then(console.log);
+			.then(discordRes => discordRes.json());
 	}
 
-	if (urlObj.pathname === '/Pages') {
+	if (urlObj.pathname === '/') {
 		responseCode = 200;
-		content = fs.readFileSync('./index.html');
+		content = fs.readFileSync('./Pages/index.html');
 	}
 
 	res.writeHead(responseCode, {

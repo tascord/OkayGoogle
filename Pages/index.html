@@ -96,7 +96,7 @@ var config = require('../config.json');
 						console.log(response);
 						const { username, discriminator } = response;
 						document.getElementById('userinfo').innerText = ` \nLogged in as: ${username}#${discriminator}`;
-						document.getElementById('login').href = "http://localhost:8000";
+						document.getElementById('login').href = `${config.redirecturi}`;
 						document.getElementById('logintext').innerText = "Logout?";
 						document.getElementById('bigname').innerText += `\n${username}`;
 					})
@@ -106,6 +106,7 @@ var config = require('../config.json');
 				const randStr = generateRandomString();
 				localStorage.setItem('stateParameter', randStr);
 
+        document.getElementById('login').href = `${config.oauthurl}`;
 				document.getElementById('login').href += `&state=${btoa(randStr)}`;
 				document.getElementById('login').style.display = 'block';
 			}
